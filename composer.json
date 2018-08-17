@@ -1,6 +1,8 @@
 {
-    "type": "project",
+    "keywords": ["weather", "hongliang", "wispiring", "client", "api"],
+    "type": "application",
     "license": "MIT",
+    "homepage": "https://github.com/h-wang/weather",
     "require": {
         "php": "^7.1.3",
         "ext-ctype": "*",

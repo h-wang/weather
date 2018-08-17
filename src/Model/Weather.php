@@ -162,4 +162,16 @@ class Weather
 
         return $this;
     }
+
+    public function serialize()
+    {
+        $t = (array) $this;
+        $o = array();
+        foreach ($t as $key => $value) {
+            $k =  explode("\0", $key);
+            $o[$k[2]] = $value;
+        }
+
+        return json_encode($o, JSON_UNESCAPED_UNICODE);
+    }
 }
