@@ -76,6 +76,7 @@ class OpenWeatherMapProvider extends BaseProvider implements ProviderInterface
             ->setSunrise($w->sun->rise->format('Y-m-d H:i'))
             ->setSunset($w->sun->set->format('Y-m-d H:i'))
         ;
+        $this->cache($weather->serialize(), sprintf('%d_current_'.$this->place->getName(), date('Ymd')));
 
         return $weather;
     }

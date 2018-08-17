@@ -174,4 +174,24 @@ class Weather
 
         return json_encode($o, JSON_UNESCAPED_UNICODE);
     }
+
+    public static function unserialize($string)
+    {
+        $o = json_decode($string, JSON_UNESCAPED_UNICODE);
+        
+        $me = new self();
+        $me->setCity($o['city'])
+            ->setCountry($o['country'])
+            ->setStamp($o['stamp'])
+            ->setTemperature($o['temperature'])
+            ->setMinTemperature($o['minTemperature'])
+            ->setMaxTemperature($o['maxTemperature'])
+            ->setPressure($o['pressure'])
+            ->setHumidity($o['humidity'])
+            ->setSunrise($o['sunrise'])
+            ->setSunset($o['sunset'])
+            ->setDescription($o['description']);
+        
+        return $me;
+    }
 }

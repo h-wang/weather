@@ -55,6 +55,7 @@ class HeWeatherProvider extends BaseProvider implements ProviderInterface
             ->setHumidity($w['now']['hum'].' %')
             ->setDescription($w['now']['cond_txt'])
         ;
+        $this->cache($weather->serialize(), sprintf('%d_current_'.$this->place->getName(), date('Ymd')));
 
         return $weather;
     }

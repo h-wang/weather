@@ -49,4 +49,24 @@ class BaseProvider implements ProviderInterface
     public function getForcast()
     {
     }
+
+    protected function getCacheBaseDir()
+    {
+        return __DIR__.'/../../var/cache';
+    }
+
+    public function getCacheDir()
+    {
+        $dir = $this->getCacheBaseDir().'/'.(new \ReflectionClass($this))->getShortName();
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755);
+        }
+
+        return $dir;
+    }
+
+    protected function cache($content, $filename)
+    {
+        return file_put_contents($this->getCacheDir().'/'.$filename, $content);
+    }
 }
