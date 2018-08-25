@@ -20,6 +20,15 @@ php bin/console weather:current [location]
 php bin/console weather:current [location] --provider=heweather
 ```
 
+## Client implementation
+```php
+$location = 'shenyang';
+$url = 'http://localhost/api/v1/current/'.$location;
+$weather = file_get_contents($url);
+$weather = json_decode($weather, true);
+print_r($weather);
+```
+
 ## Features
 The following features are provided:
  - [x] Simple Restful API for apps to call, with JSON return format.

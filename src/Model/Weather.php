@@ -219,6 +219,34 @@ class Weather
         return $this;
     }
 
+    protected $imageUrl;
+
+    public function getImageUrl()
+    {
+        return $this->imageUrl;
+    }
+
+    public function setImageUrl($imageUrl)
+    {
+        $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
+    protected $image2Url;
+
+    public function getImage2Url()
+    {
+        return $this->image2Url;
+    }
+
+    public function setImage2Url($image2Url)
+    {
+        $this->image2Url = $image2Url;
+
+        return $this;
+    }
+
     public function serialize()
     {
         $t = (array) $this;
@@ -250,7 +278,10 @@ class Weather
             ->setWindSpeed($o['windSpeed'])
             ->setWindForce($o['windForce'])
             ->setVisibility($o['visibility'])
-            ->setDescription($o['description']);
+            ->setDescription($o['description'])
+            ->setImageUrl($o['imageUrl'])
+            ->setImage2Url($o['image2Url'])
+        ;
 
         return $me;
     }

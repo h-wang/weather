@@ -10,6 +10,7 @@ class HeWeatherProvider extends BaseProvider implements ProviderInterface
     private $language = 'cn';
     // private $apiUrl = 'https://free-api.heweather.com/s6/weather/now';
     private $apiUrl = 'https://free-api.heweather.com/s6/weather';
+    private $imageUrl = 'https://cdn.heweather.com/cond_icon/%s.png';
 
     public function getApiKey()
     {
@@ -43,11 +44,11 @@ class HeWeatherProvider extends BaseProvider implements ProviderInterface
         $w = file_get_contents($this->apiUrl.'?location='.$this->place->getName().'&key='.$this->apiKey);
         $w = json_decode($w, true);
         $w = $w['HeWeather6'][0];
-        
-        if ($w['status'] != 'ok') {
+
+        if ('ok' != $w['status']) {
             throw new \Exception('Invalid location');
         }
-        
+
         $weather = new Weather();
         $weather->setCity($w['basic']['location'])
             ->setCountry($w['basic']['cnty'])
@@ -57,13 +58,15 @@ class HeWeatherProvider extends BaseProvider implements ProviderInterface
             ->setMaxTemperature($w['daily_forecast'][0]['tmp_max'].' ℃')
             ->setPressure($w['now']['pres'].' hPa')
             ->setHumidity($w['now']['hum'].' %')
-            ->setDescription($w['now']['cond_txt'])
+            ->setDescription($w['daily_forecast'][0]['cond_txt_d'].' - '.$w['daily_forecast'][0]['cond_txt_n'])
             ->setWindDirection($w['daily_forecast'][0]['wind_dir'])
             ->setWindSpeed($w['daily_forecast'][0]['wind_spd'].' km/h')
             ->setWindForce($w['daily_forecast'][0]['wind_sc'])
             ->setVisibility($w['daily_forecast'][0]['vis'].' km')
             ->setSunrise($w['daily_forecast'][0]['sr'])
             ->setSunset($w['daily_forecast'][0]['ss'])
+            ->setImageUrl(sprintf($this->imageUrl, $w['daily_forecast'][0]['cond_code_d']))
+            ->setImage2Url(sprintf($this->imageUrl, $w['daily_forecast'][0]['cond_code_n']))
             ;
         $this->cache($weather->serialize(), sprintf('%d_current_'.$this->place->getName(), date('Ymd')));
 
