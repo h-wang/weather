@@ -37,9 +37,11 @@ The following features are provided:
  - [x] Support multiple weather providers and convert weather info into the same format.
 
 Supported weather providers:
- - [x] OpenWeatherMap
- - [x] HeWeather
+ - [x] [OpenWeatherMap](https://openweathermap.org/)
+ - [x] [HeWeather](https://www.heweather.com/)
+ - [ ] [sojson](https://www.sojson.com/api/weather.html)
 
-Supported weather information type:
+Supported weather information types:
  - [x] Current weather
  - [ ] Forcast
+ - [ ] Lifestyle
