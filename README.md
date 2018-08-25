@@ -33,4 +33,4 @@ Supported weather providers:
 
 Supported weather information type:
  - [x] Current weather
- - [] Forcast
+ - [ ] Forcast
