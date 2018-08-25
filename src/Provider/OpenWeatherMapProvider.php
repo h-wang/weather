@@ -73,8 +73,11 @@ class OpenWeatherMapProvider extends BaseProvider implements ProviderInterface
             ->setMaxTemperature((string) $w->temperature->max)
             ->setPressure((string) $w->pressure)
             ->setHumidity((string) $w->humidity)
-            ->setSunrise($w->sun->rise->format('Y-m-d H:i'))
-            ->setSunset($w->sun->set->format('Y-m-d H:i'))
+            ->setSunrise($w->sun->rise->format('H:i'))
+            ->setSunset($w->sun->set->format('H:i'))
+            ->setDescription((string) $w->weather->description)
+            ->setWindDirection((string) $w->wind->direction)
+            ->setWindSpeed((string) $w->wind->speed)
         ;
         $this->cache($weather->serialize(), sprintf('%d_current_'.$this->place->getName(), date('Ymd')));
 

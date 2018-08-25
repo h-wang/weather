@@ -29,18 +29,22 @@ class ConsoleFormatter
         $output->writeln(
             '<comment>City: '.$weather->getCity().' - '.$weather->getCountry().'</comment>'
         );
-        $output->writeln('<info>Current: '.$weather->getTemperature().'</info>');
-        $output->writeln('<info>Min.: '.$weather->getMinTemperature().'</info>');
-        $output->writeln('<info>Max.: '.$weather->getMaxTemperature().'</info>');
+        $output->writeln('<info>Current: '.$weather->getTemperature().'</>');
+        $output->writeln('<info>Min.: '.$weather->getMinTemperature().'</>');
+        $output->writeln('<info>Max.: '.$weather->getMaxTemperature().'</>');
+        $output->writeln('<info>Wind direction.: '.$weather->getWindDirection().'</>');
+        $output->writeln('<info>Wind speed: '.$weather->getWindSpeed().'</>');
+        $output->writeln('<info>Wind force: '.$weather->getWindForce().'</>');
+        $output->writeln('<info>Visibility: '.$weather->getVisibility().'</>');
         $output->writeln(
-            '<info>Pressure: '.$weather->getPressure().'</info>'
+            '<info>Pressure: '.$weather->getPressure().'</>'
         );
         $output->writeln(
-            '<info>Humidity: '.$weather->getHumidity().'</info>'
+            '<info>Humidity: '.$weather->getHumidity().'</>'
         );
-        $output->writeln('<info>Description: '.$weather->getDescription().'</info>');
-        $output->writeln('<info>Sunrise: '.$weather->getSunrise().'</info>');
-        $output->writeln('<info>Sunset: '.$weather->getSunset().'</info>');
+        $output->writeln('<info>Description: '.$weather->getDescription().'</>');
+        $output->writeln('<info>Sunrise: '.$weather->getSunrise().'</>');
+        $output->writeln('<info>Sunset: '.$weather->getSunset().'</>');
     }
 
     protected function normalizeChar($string)

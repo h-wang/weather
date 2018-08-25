@@ -148,7 +148,63 @@ class Weather
 
         return $this;
     }
-    
+
+    protected $windDirection;
+
+    public function getWindDirection()
+    {
+        return $this->windDirection;
+    }
+
+    public function setWindDirection($windDirection)
+    {
+        $this->windDirection = $windDirection;
+
+        return $this;
+    }
+
+    protected $windSpeed;
+
+    public function getWindSpeed()
+    {
+        return $this->windSpeed;
+    }
+
+    public function setWindSpeed($windSpeed)
+    {
+        $this->windSpeed = $windSpeed;
+
+        return $this;
+    }
+
+    protected $windForce;
+
+    public function getWindForce()
+    {
+        return $this->windForce;
+    }
+
+    public function setWindForce($windForce)
+    {
+        $this->windForce = $windForce;
+
+        return $this;
+    }
+
+    protected $visibility;
+
+    public function getVisibility()
+    {
+        return $this->visibility;
+    }
+
+    public function setVisibility($visibility)
+    {
+        $this->visibility = $visibility;
+
+        return $this;
+    }
+
     protected $description;
 
     public function getDescription()
@@ -168,7 +224,7 @@ class Weather
         $t = (array) $this;
         $o = array();
         foreach ($t as $key => $value) {
-            $k =  explode("\0", $key);
+            $k = explode("\0", $key);
             $o[$k[2]] = $value;
         }
 
@@ -178,7 +234,7 @@ class Weather
     public static function unserialize($string)
     {
         $o = json_decode($string, JSON_UNESCAPED_UNICODE);
-        
+
         $me = new self();
         $me->setCity($o['city'])
             ->setCountry($o['country'])
@@ -190,8 +246,12 @@ class Weather
             ->setHumidity($o['humidity'])
             ->setSunrise($o['sunrise'])
             ->setSunset($o['sunset'])
+            ->setWindDirection($o['windDirection'])
+            ->setWindSpeed($o['windSpeed'])
+            ->setWindForce($o['windForce'])
+            ->setVisibility($o['visibility'])
             ->setDescription($o['description']);
-        
+
         return $me;
     }
 }

@@ -13,6 +13,9 @@ class ApiV1Controller extends AbstractController
         $location = trim($location);
         $provider = $request->query->get('provider');
 
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/json');
+
         switch ($provider) {
             case 'owm':
             case 'openweathermap':
@@ -27,17 +30,17 @@ class ApiV1Controller extends AbstractController
         }
 
         // try cache
-        $cacheFile = $p->getCacheDir().'/'.date('Ymd').'_current_'.$location;
-        if (file_exists($cacheFile)) {
+        if (file_exists($cacheFile = $p->getCacheDir().'/'.date('Ymd').'_current_'.$location)) {
             $res = file_get_contents($cacheFile);
         } else {
-            $p->setPlaceByName($location);
-            $res = $p->getCurrent()->serialize();
+            try {
+                $res = $p->setPlaceByName($location)->getCurrent()->serialize();
+            } catch (\Exception $e) {
+                return $response->setStatusCode(Response::HTTP_BAD_REQUEST)
+                    ->setContent(json_encode(['error' => $e->getMessage()]));
+            }
         }
 
-        $response = new Response($res, Response::HTTP_OK);
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
+        return $response->setStatusCode(Response::HTTP_OK)->setContent($res);
     }
 }
