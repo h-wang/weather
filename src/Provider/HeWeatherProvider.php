@@ -57,7 +57,7 @@ class HeWeatherProvider extends BaseProvider implements ProviderInterface
             ->setMaxTemperature($w['daily_forecast'][0]['tmp_max'].' ℃')
             ->setPressure($w['now']['pres'].' hPa')
             ->setHumidity($w['now']['hum'].' %')
-            ->setDescription($w['daily_forecast'][0]['cond_txt_d'].' - '.$w['daily_forecast'][0]['cond_txt_n'])
+            ->setDescription($w['daily_forecast'][0]['cond_txt_d'])
             ->setWindDirection($w['daily_forecast'][0]['wind_dir'])
             ->setWindSpeed($w['daily_forecast'][0]['wind_spd'].' km/h')
             ->setWindForce($w['daily_forecast'][0]['wind_sc'])
@@ -65,8 +65,14 @@ class HeWeatherProvider extends BaseProvider implements ProviderInterface
             ->setSunrise($w['daily_forecast'][0]['sr'])
             ->setSunset($w['daily_forecast'][0]['ss'])
             ->setImageUrl(sprintf($this->imageUrl, $w['daily_forecast'][0]['cond_code_d']))
-            ->setImage2Url(sprintf($this->imageUrl, $w['daily_forecast'][0]['cond_code_n']))
             ;
+        if ($w['daily_forecast'][0]['cond_code_d'] != $w['daily_forecast'][0]['cond_code_n']) {
+            $weather->setDescription(
+                $w['daily_forecast'][0]['cond_txt_d'].' - '.$w['daily_forecast'][0]['cond_txt_n']
+            )->setImage2Url(
+                sprintf($this->imageUrl, $w['daily_forecast'][0]['cond_code_n'])
+            );
+        }
         $this->cache($weather->serialize(), sprintf('%d_current_'.$this->place->getName(), date('Ymd')));
 
         return $weather;
