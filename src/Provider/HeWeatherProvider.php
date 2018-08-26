@@ -8,7 +8,6 @@ class HeWeatherProvider extends BaseProvider implements ProviderInterface
 {
     private $apiKey;
     private $language = 'cn';
-    // private $apiUrl = 'https://free-api.heweather.com/s6/weather/now';
     private $apiUrl = 'https://free-api.heweather.com/s6/weather';
     private $imageUrl = 'https://cdn.heweather.com/cond_icon/%s.png';
 
