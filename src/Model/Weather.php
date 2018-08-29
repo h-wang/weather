@@ -219,6 +219,20 @@ class Weather
         return $this;
     }
 
+    protected $lifestyle;
+
+    public function getLifestyle()
+    {
+        return $this->lifestyle;
+    }
+
+    public function setLifestyle($lifestyle)
+    {
+        $this->lifestyle = $lifestyle;
+
+        return $this;
+    }
+
     protected $imageUrl;
 
     public function getImageUrl()
@@ -250,13 +264,13 @@ class Weather
     public function serialize()
     {
         $t = (array) $this;
-        $o = array();
+        $o = [];
         foreach ($t as $key => $value) {
             $k = explode("\0", $key);
-            $o[$k[2]] = $value;
+            $o[$k[2]] = is_object($value) ? $value->toArray() : $value;
         }
 
-        return json_encode($o, JSON_UNESCAPED_UNICODE);
+        return json_encode($o, JSON_UNESCAPED_UNICODE, 5);
     }
 
     public static function unserialize($string)
@@ -282,6 +296,20 @@ class Weather
             ->setImageUrl($o['imageUrl'])
             ->setImage2Url($o['image2Url'])
         ;
+
+        // lifestyle
+        if ($o['lifestyle']) {
+            $lifestyle = new Lifestyle();
+            foreach ((array) $o['lifestyle'] as $ls) {
+                $lifestyle->addType(
+                    (new LifestyleType())
+                        ->setType($ls['type'])
+                        ->setTitle($ls['title'])
+                        ->setDescription($ls['description'])
+                );
+            }
+            $me->setLifestyle($lifestyle);
+        }
 
         return $me;
     }

@@ -43,5 +43,5 @@ Supported weather providers:
 
 Supported weather information types:
  - [x] Current weather
+ - [x] Lifestyle
  - [ ] Forcast
- - [ ] Lifestyle

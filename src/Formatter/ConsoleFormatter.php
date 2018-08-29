@@ -45,6 +45,13 @@ class ConsoleFormatter
         $output->writeln('<info>Description: '.$weather->getDescription().'</>');
         $output->writeln('<info>Sunrise: '.$weather->getSunrise().'</>');
         $output->writeln('<info>Sunset: '.$weather->getSunset().'</>');
+        if ($lifestyle = $weather->getLifestyle()) {
+            $output->writeln('<comment>Lifestyle:</>');
+            $lifestyle = (array) $lifestyle->getTypes();
+            foreach ($lifestyle as $ls) {
+                $output->writeln('<comment>'.$ls->toLongString().'</>');
+            }
+        }
     }
 
     protected function normalizeChar($string)
