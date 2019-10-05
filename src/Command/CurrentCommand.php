@@ -8,13 +8,22 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Hongliang\Weather\Formatter\ConsoleFormatter;
 use Hongliang\Weather\Model\Weather;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class CurrentCommand extends BaseCommand
 {
+    protected static $defaultName = 'weather:current';
+    protected $params = null;
+
+    public function __construct(ParameterBagInterface $params)
+    {
+        parent::__construct();
+        $this->params = $params;
+    }
+
     protected function configure()
     {
-        $this->setName('weather:current')
-            ->setDescription('Get current weather info.')
+        $this->setDescription('Get current weather info.')
             ->setHelp('This command allows you to fetch current weather info of a location')
             ->addArgument('location', InputArgument::REQUIRED, 'The location/city')
             ->addOption(
@@ -22,7 +31,7 @@ class CurrentCommand extends BaseCommand
                 'p',
                 InputOption::VALUE_OPTIONAL,
                 'The weather service provider',
-                'owm'
+                'heweather'
             )
         ;
     }
@@ -37,12 +46,12 @@ class CurrentCommand extends BaseCommand
             case 'owm':
             case 'openweathermap':
                 $p = new \Hongliang\Weather\Provider\OpenWeatherMapProvider();
-                $p->setApiKey($this->getContainer()->getParameter('openweathermap_api_key'));
+                $p->setApiKey($this->params->get('openweathermap_api_key'));
                 break;
             case 'heweather':
             default:
                 $p = new \Hongliang\Weather\Provider\HeWeatherProvider();
-                $p->setApiKey($this->getContainer()->getParameter('heweather_api_key'));
+                $p->setApiKey($this->params->get('heweather_api_key'));
                 break;
         }
 
@@ -55,12 +64,9 @@ class CurrentCommand extends BaseCommand
         }
 
         if ($current) {
-            $formatter = new ConsoleFormatter($output);
-            $formatter->setWeather($current)->format();
+            (new ConsoleFormatter($output))->setWeather($current)->format();
         } else {
-            $output->writeln(
-                '<error>Something\'s wrong</>'
-            );
+            $output->writeln('<error>Something\'s wrong</>');
         }
     }
 }

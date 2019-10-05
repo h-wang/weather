@@ -3,17 +3,16 @@
 namespace Hongliang\Weather\Command;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Hongliang\Weather\Model\Place;
 
-class BaseCommand extends ContainerAwareCommand
+class BaseCommand extends Command
 {
+    protected static $defaultName = 'weather:base';
+
     protected function configure()
     {
-        $this->setName('weather:base')
-            ->setDescription('Not an actual command.');
+        $this->setDescription('Not an actual command.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

@@ -36,5 +36,4 @@ if ($debug) {
 
 $kernel = new Kernel($env, $debug);
 $application = new Application($kernel);
-$application->add(new \Hongliang\Weather\Command\CurrentCommand());
 $application->run($input);
