@@ -205,6 +205,21 @@ class Weather
         return $this;
     }
 
+    protected $uvIndex;
+
+    public function getUvIndex()
+    {
+        return $this->uvIndex;
+    }
+
+    public function setUvIndex($uvIndex)
+    {
+        $this->uvIndex = $uvIndex;
+
+        return $this;
+    }
+
+
     protected $description;
 
     public function getDescription()

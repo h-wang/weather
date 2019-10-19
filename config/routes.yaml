@@ -1,6 +1,9 @@
 homepage:
   path: /
   controller: Hongliang\Weather\Controller\DefaultController::home
-api:
+api_current:
   path: /api/v1/current/{location}
   controller: Hongliang\Weather\Controller\ApiV1Controller::current
+api_simple:
+  path: /api/v1/simple/{location}
+  controller: Hongliang\Weather\Controller\ApiV1Controller::simple

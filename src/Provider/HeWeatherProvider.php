@@ -64,6 +64,7 @@ class HeWeatherProvider extends BaseProvider implements ProviderInterface
             ->setWindSpeed($w['daily_forecast'][0]['wind_spd'].' km/h')
             ->setWindForce($w['daily_forecast'][0]['wind_sc'])
             ->setVisibility($w['daily_forecast'][0]['vis'].' km')
+            ->setUvIndex($w['daily_forecast'][0]['uv_index'])
             ->setSunrise($w['daily_forecast'][0]['sr'])
             ->setSunset($w['daily_forecast'][0]['ss'])
             ->setImageUrl(sprintf($this->imageUrl, $w['daily_forecast'][0]['cond_code_d']))
