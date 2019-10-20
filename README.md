@@ -13,6 +13,7 @@ composer install
 ```
 http://localhost/api/v1/current/[location]
 http://localhost/api/v1/current/[location]?provider=openweathermap
+http://localhost/api/v1/simple/[location]
 ```
 #### CLI
 ```
