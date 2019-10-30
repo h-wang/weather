@@ -11,7 +11,7 @@ class HeWeatherProvider extends BaseProvider implements ProviderInterface
     private $apiKey;
     private $language = 'cn';
     private $apiUrl = 'https://free-api.heweather.com/s6/weather';
-    private $imageUrl = 'https://cdn.heweather.com/cond_icon/%s.png';
+    // private $imageUrl = 'https://cdn.heweather.com/cond_icon/%s.png';
 
     public function getApiKey()
     {
@@ -67,13 +67,13 @@ class HeWeatherProvider extends BaseProvider implements ProviderInterface
             ->setUvIndex($w['daily_forecast'][0]['uv_index'])
             ->setSunrise($w['daily_forecast'][0]['sr'])
             ->setSunset($w['daily_forecast'][0]['ss'])
-            ->setImageUrl(sprintf($this->imageUrl, $w['daily_forecast'][0]['cond_code_d']))
+            ->setImageUrl($this->getImageUrl($w['daily_forecast'][0]['cond_code_d']))
             ;
         if ($w['daily_forecast'][0]['cond_code_d'] != $w['daily_forecast'][0]['cond_code_n']) {
             $weather->setDescription(
                 $w['daily_forecast'][0]['cond_txt_d'].' - '.$w['daily_forecast'][0]['cond_txt_n']
             )->setImage2Url(
-                sprintf($this->imageUrl, $w['daily_forecast'][0]['cond_code_n'])
+                $this->getImageUrl($w['daily_forecast'][0]['cond_code_n'])
             );
         }
 
@@ -93,6 +93,13 @@ class HeWeatherProvider extends BaseProvider implements ProviderInterface
         $this->cache($weather->serialize(), sprintf('%d_current_'.$this->place->getName(), date('Ymd')));
 
         return $weather;
+    }
+
+    private function getImageUrl($conditionCode)
+    {
+        $protocol = ((!empty($_SERVER['HTTPS']) && 'off' != $_SERVER['HTTPS']) || 443 == $_SERVER['SERVER_PORT']) ? 'https://' : 'http://';
+
+        return $protocol.$_SERVER['SERVER_NAME'].sprintf('/i/%s.png', $conditionCode);
     }
 
     protected $typeCodes = null;
