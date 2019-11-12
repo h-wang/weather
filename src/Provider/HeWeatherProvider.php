@@ -42,7 +42,7 @@ class HeWeatherProvider extends BaseProvider implements ProviderInterface
         if (!$this->place || !$this->apiKey) {
             throw new \Exception('Place not set or no API key.');
         }
-        $w = file_get_contents($this->apiUrl.'?location='.$this->place->getName().'&key='.$this->apiKey);
+        $w = file_get_contents($this->apiUrl.'?location='.urlencode($this->place->getName()).'&key='.$this->apiKey);
         $w = json_decode($w, true);
         $w = $w['HeWeather6'][0];
 
