@@ -42,12 +42,44 @@ class ApiV1Controller extends AbstractController
                     ->setContent(json_encode(['error' => $e->getMessage()]));
             }
         }
+        $res = $this->attachAirQualityInfo($res);
 
         if ($this->doSimplifyResult) {
             $res = $this->simplifyResult($res);
         }
 
         return $response->setStatusCode(Response::HTTP_OK)->setContent($res);
+    }
+
+    private function attachAirQualityInfo($weather)
+    {
+        $w = json_decode($weather);
+        $location = rtrim($w->city, '市').'市';
+        $p = new \Hongliang\Weather\Provider\MeeProvider();
+        $p->setApiKey([$this->getParameter('mee_username'), $this->getParameter('mee_password')]);
+
+        $cacheFile = $p->getCacheDir().'/'.date('Ymd').'_aq';
+        if (file_exists($cacheFile)) {
+            $aq = json_decode(file_get_contents($cacheFile));
+        } else {
+            $aq = false;
+            try {
+                $aq = $p->getCurrent();
+            } catch (\Throwable $th) {
+            }
+        }
+
+        if ($aq) {
+            $aq = $p->getLocationCurrent($location, $aq);
+            $w->aqi = $aq->AQI;
+            $w->pm10 = $aq->PM10;
+            $w->pm2_5 = $aq->PM2_5;
+            $w->aqi_time = $aq->TIMEPOINT;
+
+            return json_encode($w);
+        }
+
+        return $weather;
     }
 
     public function simple(Request $request, $location)
@@ -74,6 +106,12 @@ class ApiV1Controller extends AbstractController
             'image2Url' => $json->image2Url,
             'uv_index' => $json->uvIndex,
         ];
+        if (property_exists($json, 'aqi')) {
+            $o['aqi'] = $json->aqi;
+            $o['aqi_time'] = $json->aqi_time;
+            $o['pm10'] = $json->pm10;
+            $o['pm2_5'] = $json->pm2_5;
+        }
         foreach ($json->lifestyle as $ls) {
             if ($ls->type == '紫外线指数') {
                 // https://baike.baidu.com/item/%E7%B4%AB%E5%A4%96%E7%BA%BF%E6%8C%87%E6%95%B0/2044758
