@@ -3,8 +3,8 @@
 namespace Hongliang\Weather\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ApiV1Controller extends AbstractController
 {
@@ -70,13 +70,14 @@ class ApiV1Controller extends AbstractController
         }
 
         if ($aq) {
-            $aq = $p->getLocationCurrent($location, $aq);
-            $w->aqi = $aq->AQI;
-            $w->pm10 = $aq->PM10;
-            $w->pm2_5 = $aq->PM2_5;
-            $w->aqi_time = $aq->TIMEPOINT;
+            if ($aq = $p->getLocationCurrent($location, $aq)) {
+                $w->aqi = $aq->AQI;
+                $w->pm10 = $aq->PM10;
+                $w->pm2_5 = $aq->PM2_5;
+                $w->aqi_time = $aq->TIMEPOINT;
 
-            return json_encode($w);
+                return json_encode($w);
+            }
         }
 
         return $weather;
@@ -113,13 +114,13 @@ class ApiV1Controller extends AbstractController
             $o['pm2_5'] = $json->pm2_5;
         }
         foreach ($json->lifestyle as $ls) {
-            if ($ls->type == '紫外线指数') {
+            if ('紫外线指数' == $ls->type) {
                 // https://baike.baidu.com/item/%E7%B4%AB%E5%A4%96%E7%BA%BF%E6%8C%87%E6%95%B0/2044758
                 $o['uv'] = $ls->title;
                 $o['uv_description'] = $ls->description;
                 continue;
             }
-            if ($ls->type == '空气污染扩散条件指数') {
+            if ('空气污染扩散条件指数' == $ls->type) {
                 // 一级优，二级良，三级轻度污染，四级中度污染，直至五级重度污染，六级严重污染
                 // https://wenku.baidu.com/view/2d791af704a1b0717fd5dd9a.html
                 $o['air'] = $ls->title;
