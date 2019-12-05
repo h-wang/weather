@@ -2,9 +2,9 @@
 
 namespace Hongliang\Weather\Provider;
 
-use Hongliang\Weather\Model\Weather;
 use Hongliang\Weather\Model\Lifestyle;
 use Hongliang\Weather\Model\LifestyleType;
+use Hongliang\Weather\Model\Weather;
 
 class HeWeatherProvider extends BaseProvider implements ProviderInterface
 {
@@ -97,6 +97,9 @@ class HeWeatherProvider extends BaseProvider implements ProviderInterface
 
     private function getImageUrl($conditionCode)
     {
+        if (!isset($_SERVER['SERVER_PORT'])) {
+            return null;
+        }
         $protocol = ((!empty($_SERVER['HTTPS']) && 'off' != $_SERVER['HTTPS']) || 443 == $_SERVER['SERVER_PORT']) ? 'https://' : 'http://';
 
         return $protocol.$_SERVER['SERVER_NAME'].sprintf('/i/%s.png', $conditionCode);
