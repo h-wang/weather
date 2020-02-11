@@ -53,6 +53,9 @@ class ApiV1Controller extends AbstractController
 
     private function attachAirQualityInfo($weather)
     {
+        if (!$this->getParameter('mee_username') || !$this->getParameter('mee_password')) {
+            return $weather;
+        }
         $w = json_decode($weather);
         $location = rtrim($w->city, '市').'市';
         $p = new \Hongliang\Weather\Provider\MeeProvider();
