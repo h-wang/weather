@@ -77,6 +77,11 @@ class ApiV1Controller extends AbstractController
                 $w->aqi = $aq->AQI;
                 $w->pm10 = $aq->PM10;
                 $w->pm2_5 = $aq->PM2_5;
+                $w->o3 = $aq->o3;
+                $w->co = $aq->CO;
+                $w->so2 = $aq->SO2;
+                $w->no2 = $aq->NO2;
+                $w->primary_pollutant = $aq->PRIMARYPOLLUTANT;
                 $w->aqi_time = $aq->TIMEPOINT;
 
                 return json_encode($w);
