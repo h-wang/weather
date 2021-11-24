@@ -18,7 +18,7 @@ http://localhost/api/v1/simple/[location]
 #### CLI
 ```
 php bin/console weather:current [location]
-php bin/console weather:current [location] --provider=heweather
+php bin/console weather:current [location] --provider=qweather
 ```
 
 ## Client implementation
@@ -40,9 +40,11 @@ The following features are provided:
 Supported weather providers:
  - [x] [OpenWeatherMap](https://openweathermap.org/)
  - [x] [HeWeather](https://www.heweather.com/)
+ - [x] [QWeather](https://www.qweather.com/)
  - [ ] [sojson](https://www.sojson.com/api/weather.html)
 
 Supported weather information types:
  - [x] Current weather
  - [x] Lifestyle
+ - [x] Air quality
  - [ ] Forcast
