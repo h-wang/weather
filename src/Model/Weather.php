@@ -276,6 +276,132 @@ class Weather
         return $this;
     }
 
+    protected $aqi;
+
+    public function getAqi()
+    {
+        return $this->aqi;
+    }
+
+    public function setAqi($aqi)
+    {
+        $this->aqi = $aqi;
+
+        return $this;
+    }
+
+    protected $pm10;
+
+    public function getPm10()
+    {
+        return $this->pm10;
+    }
+
+    public function setPm10($pm10)
+    {
+        $this->pm10 = $pm10;
+
+        return $this;
+    }
+
+    protected $pm2p5;
+
+    public function getPm2p5()
+    {
+        return $this->pm2p5;
+    }
+
+    public function setPm2p5($pm2p5)
+    {
+        $this->pm2p5 = $pm2p5;
+
+        return $this;
+    }
+
+    protected $o3;
+
+    public function getO3()
+    {
+        return $this->o3;
+    }
+
+    public function setO3($o3)
+    {
+        $this->o3 = $o3;
+
+        return $this;
+    }
+
+    protected $co;
+
+    public function getCo()
+    {
+        return $this->co;
+    }
+
+    public function setCo($co)
+    {
+        $this->co = $co;
+
+        return $this;
+    }
+
+    protected $so2;
+
+    public function getSo2()
+    {
+        return $this->so2;
+    }
+
+    public function setSo2($so2)
+    {
+        $this->so2 = $so2;
+
+        return $this;
+    }
+
+    protected $no2;
+
+    public function getNo2()
+    {
+        return $this->no2;
+    }
+
+    public function setNo2($no2)
+    {
+        $this->no2 = $no2;
+
+        return $this;
+    }
+
+    protected $primaryPollutant;
+
+    public function getPrimaryPollutant()
+    {
+        return $this->primaryPollutant;
+    }
+
+    public function setPrimaryPollutant($primaryPollutant)
+    {
+        $this->primaryPollutant = $primaryPollutant;
+
+        return $this;
+    }
+
+    protected $aqiTime;
+
+    public function getAqiTime()
+    {
+        return $this->aqiTime;
+    }
+
+    public function setAqiTime($aqiTime)
+    {
+        $this->aqiTime = $aqiTime;
+
+        return $this;
+    }
+
     public function serialize()
     {
         $t = (array) $this;
@@ -311,6 +437,17 @@ class Weather
             ->setImageUrl($o['imageUrl'])
             ->setImage2Url($o['image2Url'])
         ;
+        if (isset($o['aqi'])) {
+            $me->setAqi($o['aqi'])
+                ->setPm10($o['pm10'])
+                ->setPm2p5($o['pm2p5'])
+                ->setO3($o['o3'])
+                ->setCo($o['co'])
+                ->setSo2($o['so2'])
+                ->setNo2($o['no2'])
+                ->setPrimaryPollutant($o['primaryPollutant'])
+                ->setAqiTime($o['aqiTime']);
+        }
 
         // lifestyle
         if ($o['lifestyle']) {

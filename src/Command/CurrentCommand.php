@@ -31,7 +31,7 @@ class CurrentCommand extends BaseCommand
                 'p',
                 InputOption::VALUE_OPTIONAL,
                 'The weather service provider',
-                'heweather'
+                'qweather'
             )
         ;
     }
@@ -49,9 +49,13 @@ class CurrentCommand extends BaseCommand
                 $p->setApiKey($this->params->get('openweathermap_api_key'));
                 break;
             case 'heweather':
-            default:
                 $p = new \Hongliang\Weather\Provider\HeWeatherProvider();
                 $p->setApiKey($this->params->get('heweather_api_key'));
+                break;
+            case 'qweather':
+            default:
+                $p = new \Hongliang\Weather\Provider\QWeatherProvider();
+                $p->setApiKey($this->params->get('qweather_api_key'));
                 break;
         }
 

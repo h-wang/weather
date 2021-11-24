@@ -6,6 +6,7 @@
 parameters:
     openweathermap_api_key: '%env(OPENWEATHERMAP_API_KEY)%'
     heweather_api_key: '%env(HEWEATHER_API_KEY)%'
+    qweather_api_key: '%env(QWEATHER_API_KEY)%'
     mee_username: '%env(MEE_USERNAME)%'
     mee_password: '%env(MEE_PASSWORD)%'
 

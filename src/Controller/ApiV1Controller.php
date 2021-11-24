@@ -18,6 +18,8 @@ class ApiV1Controller extends AbstractController
         $response = new Response();
         $response->headers->set('Content-Type', 'application/json');
 
+        $attachAirQuality = true;
+
         switch ($provider) {
             case 'owm':
             case 'openweathermap':
@@ -25,9 +27,14 @@ class ApiV1Controller extends AbstractController
                 $p->setApiKey($this->getParameter('openweathermap_api_key'));
                 break;
             case 'heweather':
-            default:
                 $p = new \Hongliang\Weather\Provider\HeWeatherProvider();
                 $p->setApiKey($this->getParameter('heweather_api_key'));
+                break;
+            case 'qweather':
+            default:
+                $p = new \Hongliang\Weather\Provider\QWeatherProvider();
+                $p->setApiKey($this->getParameter('qweather_api_key'));
+                $attachAirQuality = false;
                 break;
         }
 
@@ -42,7 +49,10 @@ class ApiV1Controller extends AbstractController
                     ->setContent(json_encode(['error' => $e->getMessage()]));
             }
         }
-        $res = $this->attachAirQualityInfo($res);
+
+        if ($attachAirQuality) {
+            $res = $this->attachAirQualityInfo($res);
+        }
 
         if ($this->doSimplifyResult) {
             $res = $this->simplifyResult($res);
@@ -117,9 +127,14 @@ class ApiV1Controller extends AbstractController
         ];
         if (property_exists($json, 'aqi')) {
             $o['aqi'] = $json->aqi;
-            $o['aqi_time'] = $json->aqi_time;
+            $o['aqi_time'] = $json->aqi_time ?: $json->aqiTime;
             $o['pm10'] = $json->pm10;
-            $o['pm2_5'] = $json->pm2_5;
+            $o['pm2p5'] = $json->pm2_5 ?: $json->pm2p5;
+            $o['co'] = $json->co;
+            $o['o3'] = $json->o3;
+            $o['so2'] = $json->so2;
+            $o['no2'] = $json->no2;
+            $o['primary_pollutant'] = $json->primaryPollutant;
         }
         foreach ($json->lifestyle as $ls) {
             if ('紫外线指数' == $ls->type) {

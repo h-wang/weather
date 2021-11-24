@@ -45,6 +45,14 @@ class ConsoleFormatter
         $output->writeln('<info>Description: '.$weather->getDescription().'</>');
         $output->writeln('<info>Sunrise: '.$weather->getSunrise().'</>');
         $output->writeln('<info>Sunset: '.$weather->getSunset().'</>');
+        $output->writeln('<info>AQI: '.$weather->getAqi().'</>');
+        $output->writeln('<info>PM10: '.$weather->getPm10().'</>');
+        $output->writeln('<info>PM2.5: '.$weather->getPm2p5().'</>');
+        $output->writeln('<info>O3: '.$weather->getO3().'</>');
+        $output->writeln('<info>CO: '.$weather->getCo().'</>');
+        $output->writeln('<info>SO2: '.$weather->getSo2().'</>');
+        $output->writeln('<info>NO2: '.$weather->getNo2().'</>');
+        $output->writeln('<info>Primary pollutant: '.$weather->getPrimaryPollutant().'</>');
         if ($lifestyle = $weather->getLifestyle()) {
             $output->writeln('<comment>Lifestyle:</>');
             $lifestyle = (array) $lifestyle->getTypes();
