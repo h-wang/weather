@@ -156,15 +156,6 @@ class QWeatherProvider extends BaseProvider implements ProviderInterface
             ->setNo2($aq['no2'])
             ->setPrimaryPollutant($aq['primary'])
             ->setAqiTime(strtotime($aq['pubTime']));
-        // $weather->aqi = $aq['aqi'];
-        // $weather->pm10 = $aq['pm10'];
-        // $weather->pm2_5 = $aq['pm2p5'];
-        // $weather->o3 = $aq['o3'];
-        // $weather->co = $aq['co'];
-        // $weather->so2 = $aq['so2'];
-        // $weather->no2 = $aq['no2'];
-        // $weather->primary_pollutant = $aq['primary'];
-        // $weather->aqi_time = strtotime($aq['pubTime']);
 
         $this->cache($weather->serialize(), sprintf('%d_current_'.$this->place->getName(), date('Ymd')));
 

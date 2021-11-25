@@ -124,23 +124,25 @@ class ApiV1Controller extends AbstractController
             'imageUrl' => $json->imageUrl,
             'image2Url' => $json->image2Url,
             'uv_index' => $json->uvIndex,
+            'uvIndex' => $json->uvIndex,
         ];
         if (property_exists($json, 'aqi')) {
             $o['aqi'] = $json->aqi;
-            $o['aqi_time'] = $json->aqi_time ?: $json->aqiTime;
+            $o['aqi_time'] = $o['aqiTime'] = $json->aqi_time ?: $json->aqiTime;
             $o['pm10'] = $json->pm10;
-            $o['pm2p5'] = $json->pm2_5 ?: $json->pm2p5;
+            $o['pm2p5'] = $o['pm2_5'] = $json->pm2_5 ?: $json->pm2p5;
             $o['co'] = $json->co;
             $o['o3'] = $json->o3;
             $o['so2'] = $json->so2;
             $o['no2'] = $json->no2;
-            $o['primary_pollutant'] = $json->primaryPollutant;
+            $o['primary_pollutant'] = $o['primaryPollutant'] = $json->primaryPollutant;
         }
         foreach ($json->lifestyle as $ls) {
             if ('紫外线指数' == $ls->type) {
                 // https://baike.baidu.com/item/%E7%B4%AB%E5%A4%96%E7%BA%BF%E6%8C%87%E6%95%B0/2044758
                 $o['uv'] = $ls->title;
                 $o['uv_description'] = $ls->description;
+                $o['uvDescription'] = $ls->description;
                 continue;
             }
             if ('空气污染扩散条件指数' == $ls->type) {
@@ -148,6 +150,7 @@ class ApiV1Controller extends AbstractController
                 // https://wenku.baidu.com/view/2d791af704a1b0717fd5dd9a.html
                 $o['air'] = $ls->title;
                 $o['air_description'] = $ls->description;
+                $o['airDescription'] = $ls->description;
                 continue;
             }
         }
